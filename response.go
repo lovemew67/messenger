@@ -238,7 +238,7 @@ func (r *Response) AttachmentData(dataType AttachmentType, filename string, file
 
 	req.Header.Set("Content-Type", multipartWriter.FormDataContentType())
 
-	client := &http.Client{}
+	client := GetHttpClient()
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
@@ -350,7 +350,7 @@ func (r *Response) DispatchMessage(m interface{}) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.URL.RawQuery = "access_token=" + r.token
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := GetHttpClient().Do(req)
 	if err != nil {
 		return err
 	}
@@ -383,7 +383,7 @@ func (r *Response) PassThreadToInbox() error {
 	req.Header.Set("Content-Type", "application/json")
 	req.URL.RawQuery = "access_token=" + r.token
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := GetHttpClient().Do(req)
 	if err != nil {
 		return err
 	}

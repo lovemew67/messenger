@@ -173,7 +173,7 @@ func (m *Messenger) ProfileByID(id int64, profileFields []string) (Profile, erro
 
 	req.URL.RawQuery = "fields=" + fields + "&access_token=" + m.token
 
-	client := &http.Client{}
+	client := GetHttpClient()
 	resp, err := client.Do(req)
 	if err != nil {
 		return p, err
@@ -223,7 +223,7 @@ func (m *Messenger) GreetingSetting(text string) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.URL.RawQuery = "access_token=" + m.token
 
-	client := &http.Client{}
+	client := GetHttpClient()
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -255,7 +255,7 @@ func (m *Messenger) CallToActionsSetting(state string, actions []CallToActionsIt
 	req.Header.Set("Content-Type", "application/json")
 	req.URL.RawQuery = "access_token=" + m.token
 
-	client := &http.Client{}
+	client := GetHttpClient()
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -477,7 +477,7 @@ func (m *Messenger) EnableChatExtension(homeURL HomeURL) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.URL.RawQuery = "access_token=" + m.token
 
-	client := &http.Client{}
+	client := GetHttpClient()
 
 	resp, err := client.Do(req)
 	if err != nil {

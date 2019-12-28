@@ -1,4 +1,6 @@
-module github.com/paked/messenger
+module github.com/lovemew67/messenger
+
+go 1.13
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
