@@ -378,6 +378,8 @@ func (m *Messenger) dispatch(r Receive) {
 				}
 			case ReadAction:
 				for _, f := range m.readHandlers {
+					info.Read.Sender = info.Sender
+					info.Read.Recipient = info.Recipient
 					f(*info.Read, resp)
 				}
 			case PostBackAction:
