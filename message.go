@@ -47,6 +47,10 @@ type Delivery struct {
 // Read represents a the event fired when a message is read by the
 // recipient.
 type Read struct {
+	// Sender is who the message was sent from.
+	Sender Sender `json:"-"`
+	// Recipient is who the message was sent to.
+	Recipient Recipient `json:"-"`
 	// RawWatermark is the timestamp before which all messages have been read
 	// by the user
 	RawWatermark int64 `json:"watermark"`
