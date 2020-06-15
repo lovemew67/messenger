@@ -116,6 +116,8 @@ type Payload struct {
 	URL string `json:"url,omitempty"`
 	// Coordinates is Lat/Long pair of location pin
 	Coordinates *Coordinates `json:"coordinates,omitempty"`
+	// StickerID is the ID of the sticker user sent.
+	StickerID int `json:"sticker_id"`
 }
 
 // Coordinates is a pair of latitude and longitude
