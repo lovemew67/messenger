@@ -80,6 +80,10 @@ func (e QueryError) Error() string {
 	return e.Message
 }
 
+func (e *QueryError) String() string {
+	return fmt.Sprintf("%+v", *e)
+}
+
 func checkFacebookError(r io.Reader) error {
 	var err error
 
@@ -89,7 +93,7 @@ func checkFacebookError(r io.Reader) error {
 		return xerrors.Errorf("json unmarshal error: %w", err)
 	}
 	if qr.Error != nil {
-		return xerrors.Errorf("facebook error: %w", qr.Error)
+		return xerrors.Errorf("facebook error: %+v", qr.Error)
 	}
 
 	return nil

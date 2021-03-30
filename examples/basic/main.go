@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/lovemew67/messenger"
+	"github.com/AaronLi963/messenger"
 )
 
 var (
