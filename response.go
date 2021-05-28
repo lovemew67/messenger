@@ -21,6 +21,7 @@ type AttachmentType string
 type MessagingType string
 type TopElementStyle string
 type ImageAspectRatio string
+type ContentType string
 
 const (
 	// SendMessageURL is API endpoint for sending messages.
@@ -57,6 +58,11 @@ const (
 	HorizontalImageAspectRatio ImageAspectRatio = "horizontal"
 	// ImageAspectRatio is square.
 	SquareImageAspectRatio ImageAspectRatio = "square"
+
+	// ContentType is for quick reply
+	TextType  ContentType = "text"
+	PhoneType ContentType = "user_phone_number"
+	EmailType ContentType = "user_email"
 )
 
 // QueryResponse is the response sent back by Facebook when setting up things
@@ -421,7 +427,9 @@ type SendStructuredMessage struct {
 
 // StructuredMessageData is an attachment sent with a structured message.
 type StructuredMessageData struct {
-	Attachment StructuredMessageAttachment `json:"attachment"`
+	Text         string                        `json:"text,omitempty"`
+	Attachment   StructuredMessageAttachment   `json:"attachment,omitempty"`
+	QuickReplies []StructuredMessageQuickReply `json:"quick_replies,omitempty"`
 }
 
 // StructuredMessageAttachment is the attachment of a structured message.
@@ -432,6 +440,16 @@ type StructuredMessageAttachment struct {
 	Type  AttachmentType `json:"type"`
 	// Payload is the information for the file which was sent in the attachment.
 	Payload StructuredMessagePayload `json:"payload"`
+}
+
+// StructuredMessageQuickReply is the quick reply of a structured message.
+type StructuredMessageQuickReply struct {
+	// Title is required if content type is specified as text
+	Title       string      `json:"title,omitempty"`
+	ImageURL    string      `json:"image_url,omitempty"`
+	ContentType ContentType `json:"content_type"`
+	// Payload is the information for the callback function
+	Payload interface{} `json:"payload"` // number or string
 }
 
 // StructuredMessagePayload is the actual payload of an attachment
