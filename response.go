@@ -2,6 +2,7 @@ package messenger
 
 import (
 	"bytes"
+	"container/list"
 	"encoding/json"
 	"fmt"
 	"image"
@@ -39,6 +40,8 @@ const (
 	VideoAttachment AttachmentType = "video"
 	// FileAttachment is file attachment type.
 	FileAttachment AttachmentType = "file"
+	// FileAttachment is template attachment type.
+	TemplateAttachment AttachmentType = "template"
 
 	// ResponseType is response messaging type
 	ResponseType MessagingType = "RESPONSE"
@@ -190,6 +193,54 @@ func (r *Response) Attachment(dataType AttachmentType, url string, messagingType
 					Url: url,
 				},
 			},
+		},
+		Tag: tag,
+	}
+	return r.DispatchMessage(&m)
+}
+
+// Template sends an template message to a chat.
+func (r *Response) Template(messagingType MessagingType, elements *[]StructuredMessageElement, tags ...string) error {
+	var tag string
+	if len(tags) > 0 {
+		tag = tags[0]
+	}
+
+	m := SendStructuredMessage{
+		MessagingType: messagingType,
+		Recipient:     r.to,
+		Message: StructuredMessageData{
+			Attachment: StructuredMessageAttachment{
+				Type: TemplateAttachment,
+				Payload: StructuredMessagePayload{
+					TemplateType: "generic",
+					Elements: elements,
+				},
+			},
+		},
+		Tag: tag,
+	}
+	return r.DispatchMessage(&m)
+}
+
+func (r *Response) QuickReply(dataType AttachmentType, url string, messagingType MessagingType, text string, quickReplies []StructuredMessageQuickReply, tags ...string) error {
+	var tag string
+	if len(tags) > 0 {
+		tag = tags[0]
+	}
+
+	m := SendStructuredMessage{
+		MessagingType: messagingType,
+		Recipient:     r.to,
+		Message: StructuredMessageData{
+			Text: text,
+			Attachment: StructuredMessageAttachment{
+				Type: dataType,
+				Payload: StructuredMessagePayload{
+					Url: url,
+				},
+			},
+			QuickReplies: quickReplies,
 		},
 		Tag: tag,
 	}
